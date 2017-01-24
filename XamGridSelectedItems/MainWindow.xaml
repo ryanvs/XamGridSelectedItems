@@ -3,10 +3,32 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+				xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:XamGridSelectedItems"
+        xmlns:vm="clr-namespace:XamGridSelectedItems.ViewModels"
+        xmlns:ig="http://schemas.infragistics.com/xaml"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow"
+				Height="350" Width="525">
+  <Window.Resources>
+    <vm:MainViewModel x:Key="mainVm" />
+  </Window.Resources>
+  <Grid DataContext="{StaticResource mainVm}">
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+    <ig:XamGrid Grid.Row="0"
+                SnapsToDevicePixels="True"
+                ItemsSource="{Binding Companies}">
+			<ig:XamGrid.SelectionSettings>
+				<ig:SelectionSettings CellSelection="Multiple" />
+			</ig:XamGrid.SelectionSettings>
+			<i:Interaction.Behaviors>
+				<local:XamGridSelectedItemsBehavior SelectedItems="{Binding TestSelectedItems}" />
+			</i:Interaction.Behaviors>
+    </ig:XamGrid>
+		<ListBox Grid.Row="1"
+						 ItemsSource="{Binding TestSelectedItems}" />
+	</Grid>
 </Window>
