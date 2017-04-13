@@ -24,10 +24,15 @@ namespace XamGridSelectedItems
                 typeof(XamGridSelectedItemsBehavior),
                 new FrameworkPropertyMetadata(default(BindableCollection<object>)));
 
+        public XamGrid Grid
+        {
+            get { return AssociatedObject as XamGrid; }
+        }
+
         public object SelectedItem
         {
             get { return GetValue(SelectedItemProperty); }
-            set { AssociatedObject.SetValue(SelectedItemProperty, value); }
+            set { SetValue(SelectedItemProperty, value); }
         }
 
         public BindableCollection<object> SelectedItems
@@ -64,6 +69,7 @@ namespace XamGridSelectedItems
 
         private void OnSelectedCellsCollectionChanged(object sender, SelectionCollectionChangedEventArgs<SelectedCellsCollection> e)
         {
+            /*
             var collection = SelectedItems;
             if (collection != null)
             {
@@ -75,7 +81,7 @@ namespace XamGridSelectedItems
                                                            .Distinct()
                                                            .Select(row => row.Data)
                                                            .ToList();
-                // TODO: Remove the duplicates, since it means no change in selected item
+                // Remove the duplicates, since it means no change in selected item
                 var intersect = removeItems.Intersect(addItems).ToList();
                 foreach (var item in intersect)
                 {
@@ -86,6 +92,7 @@ namespace XamGridSelectedItems
                 collection.AddRange(addItems);
             }
             SelectedItem = AssociatedObject.ActiveItem ?? collection.FirstOrDefault();
+            */
         }
 
         private void OnSelectedRowsCollectionChanged(object sender, SelectionCollectionChangedEventArgs<SelectedRowsCollection> e)

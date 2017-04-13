@@ -28,9 +28,9 @@ namespace XamGridSelectedItems.ViewModels
                                 Description = "The phone that changed everything",
                                 Versions = new BindableCollection<ProductVersion>()
                                 {
-                                    new ProductVersion { Version = "5" },
-                                    new ProductVersion { Version = "6" },
-                                    new ProductVersion { Version = "6S" },
+                                    new ProductVersion { Version = "5", ReleaseDate = DateTime.Parse("2012-09-21") },
+                                    new ProductVersion { Version = "6", ReleaseDate = DateTime.Parse("2014-09-19") },
+                                    new ProductVersion { Version = "6S", ReleaseDate = DateTime.Parse("2015-09-09") },
                                 },
                             },
                         },
@@ -47,10 +47,10 @@ namespace XamGridSelectedItems.ViewModels
                                 Description = "The OS that changed everything",
                                 Versions = new BindableCollection<ProductVersion>()
                                 {
-                                    new ProductVersion { Version = "1.0" },
-                                    new ProductVersion { Version = "2.0" },
-                                    new ProductVersion { Version = "3.0" },
-                                    new ProductVersion { Version = "3.1" },
+                                    new ProductVersion { Version = "1.0", ReleaseDate = DateTime.Parse("1985-11-20") },
+                                    new ProductVersion { Version = "2.0", ReleaseDate = DateTime.Parse("1987-12-09") },
+                                    new ProductVersion { Version = "3.0", ReleaseDate = DateTime.Parse("1990-05-22") },
+                                    new ProductVersion { Version = "3.1", ReleaseDate = DateTime.Parse("1992-03-01") },
                                 },
                             },
                         },
@@ -63,6 +63,14 @@ namespace XamGridSelectedItems.ViewModels
         {
             get { return _companies; }
             set { SetField(ref _companies, value); }
+        }
+
+        private object _selectedItem;
+
+        public object TestSelectedItem
+        {
+            get { return _selectedItem; }
+            set { SetField(ref _selectedItem, value); }
         }
 
         private BindableCollection<object> _selectedItems;

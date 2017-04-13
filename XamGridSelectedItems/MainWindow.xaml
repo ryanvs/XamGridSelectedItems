@@ -1,34 +1,85 @@
 ﻿<Window x:Class="XamGridSelectedItems.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+				xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+				xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 				xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:local="clr-namespace:XamGridSelectedItems"
-        xmlns:vm="clr-namespace:XamGridSelectedItems.ViewModels"
-        xmlns:ig="http://schemas.infragistics.com/xaml"
-        mc:Ignorable="d"
-        Title="MainWindow"
-				Height="350" Width="525">
-  <Window.Resources>
-    <vm:MainViewModel x:Key="mainVm" />
-  </Window.Resources>
-  <Grid DataContext="{StaticResource mainVm}">
+				xmlns:local="clr-namespace:XamGridSelectedItems"
+				xmlns:models="clr-namespace:XamGridSelectedItems.Models"
+				xmlns:vm="clr-namespace:XamGridSelectedItems.ViewModels"
+				xmlns:ig="http://schemas.infragistics.com/xaml"
+				mc:Ignorable="d"
+				Title="MainWindow"
+				Height="350" Width="525"
+				DataContext="{StaticResource mainVm}">
+	<Window.Resources>
+		<ResourceDictionary>
+			<DataTemplate DataType="{x:Type models:Company}">
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="Company: " />
+					<TextBlock Text="{Binding Name}" />
+				</StackPanel>
+			</DataTemplate>
+			<DataTemplate DataType="{x:Type models:Product}">
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="Product: " />
+					<TextBlock Text="{Binding Name}" />
+					<TextBlock Text=" - " />
+					<TextBlock Text="{Binding Description}" />
+				</StackPanel>
+			</DataTemplate>
+			<DataTemplate DataType="{x:Type models:ProductVersion}">
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="Version: " />
+					<TextBlock Text="{Binding Version}" />
+				</StackPanel>
+			</DataTemplate>
+		</ResourceDictionary>
+	</Window.Resources>
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition />
 			<RowDefinition />
 		</Grid.RowDefinitions>
-    <ig:XamGrid Grid.Row="0"
-                SnapsToDevicePixels="True"
-                ItemsSource="{Binding Companies}">
+		<ig:XamGrid x:Name="SourceGrid"
+								Grid.Row="0"
+								SnapsToDevicePixels="True"
+								ItemsSource="{Binding Companies}">
 			<ig:XamGrid.SelectionSettings>
 				<ig:SelectionSettings CellSelection="Multiple" />
 			</ig:XamGrid.SelectionSettings>
 			<i:Interaction.Behaviors>
-				<local:XamGridSelectedItemsBehavior SelectedItems="{Binding TestSelectedItems}" />
+				<local:XamGridSelectedItemsBehavior SelectedItem="{Binding TestSelectedItem,Mode=TwoWay}" SelectedItems="{Binding TestSelectedItems}" />
 			</i:Interaction.Behaviors>
-    </ig:XamGrid>
-		<ListBox Grid.Row="1"
-						 ItemsSource="{Binding TestSelectedItems}" />
+		</ig:XamGrid>
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<TextBlock Grid.Row="1" Grid.Column="0" Text="Single Selection"/>
+			<TextBlock Grid.Row="2" Grid.Column="0" Text="Multiple Selection"/>
+			
+			<TextBlock Grid.Row="0" Grid.Column="1" Text="XamGrid Standard"/>
+			<Border Grid.Row="1" Grid.Column="1" BorderBrush="LightGray" BorderThickness="1">
+				<ContentControl  Content="{Binding ActiveItem,ElementName=SourceGrid}" />
+			</Border>
+			<Border Grid.Row="2" Grid.Column="1" BorderBrush="LightGray" BorderThickness="1">
+				<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="n/a" />
+			</Border>
+
+			<TextBlock Grid.Row="0" Grid.Column="2" Text="XamGrid Behavior"/>
+			<Border Grid.Row="1" Grid.Column="2" BorderBrush="LightGray" BorderThickness="1">
+				<ContentControl Content="{Binding TestSelectedItem}"/>
+			</Border>
+			<ListBox Grid.Row="2" Grid.Column="2" BorderBrush="LightGray" ItemsSource="{Binding TestSelectedItems}"/>
+		</Grid>
 	</Grid>
 </Window>
